@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>高考生物你真的学会了吗?</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h3 id = 'score'></h3>
+    <p></p>
+    <h3 id = 'timer'>"剩余时间:0000s"</h3>
+    <p></p>
+    <h2 id = 'q'></h2>
+    <p></p>
+    <button id = '0'></button>
+    <p></p>
+    <button id = '1'></button>
+    <p></p>
+    <button id = '2'></button>
+    <p></p>
+    <button id = '3'></button>
+
+    <script>
+        let score = 0;
+        let rc =0,wc = 0;
+        let q = [
+        [["施莱登|施旺"], ["细胞学说"]],
+        [["列文虎克"], ["发明显微镜"]],
+        [["魏尔肖"], ["细胞通过分裂产生新细胞"]],
+        [["欧文顿"], ["膜是由脂质组成的"]],
+        [["罗伯特森"], ["电镜下看见了亮一暗一亮的结构，提出蛋白质一脂质一蛋白质（汉堡包）模型，将生物膜描述为静态的统一结构"]],
+        [["桑格|尼克森"], ["提出了流动镶嵌模型"]],
+        [["毕希纳"], ["获得了酶的提取液，证明了发酵起作用的不是酵母菌本身"]],
+        [["萨姆纳"], ["提纯脲酶，证明其为蛋白质"]],
+        [["切特|奥特曼"], ["发现少数RNA也有催化作用"]],
+        [["萨克斯"], ["发现叶绿素集中分布在个个更小的结构中，后来被称为叶绿体"]],
+        [["萨克斯"], ["发现光合作用产物还有淀粉"]],
+        [["普利斯特利"], ["发现植物可以更新空气"]],
+        [["英格豪斯"], ["发现只有绿叶、在光照下才能更新污浊的空气"]],
+        [["梅耶"], ["指出植物光合作用时将能量储存了起来"]],
+        [["鲁宾|卡门"], ["光合作用释放的氧气来自水"]],
+        [["卡尔文"], ["探明了二碳化碳转化为有机物中的碳的途径（卡尔文循环／暗反应）"]],
+        [["孟德尔"], ["遗传因子的分离与自由组合"]],
+        [["萨顿"], ["因为基因与染色体的平行关系提出了基因在染色体上"]],
+        [["摩尔根"], ["验证了基因在染色体上"], ["证明基因在染色体上线性排列"]],
+        [["格里菲思"], ["体内转化实验"]],
+        [["艾弗里"], ["体外转化实验,证明DNA是遗传物质"]],
+        [["赫尔希|蔡斯"], ["T2噬菌体侵染细菌实验"]],
+        [["沃森|克里克|威尔金斯|富兰克林"], ["构建DNA双螺旋结构模型"]],
+        [["克里克"], ["中心法则"]],
+        [["拉马克"], ["用进废退学说"]],
+        [["达尔文"], ["自然选择学说"]],
+        [["沃泰默"], ["认为胰液分泌是神经反射"]],
+        [["斯他林|贝利斯"], ["发现了促胰液素"]],
+        [["达尔文"], ["胚芽鞘尖端受单侧光刺激后，就向下面的伸长区传递某种“影响”，造成伸长区背光面比向光面生长快，因而使胚芽鞘出现向光性弯曲"]],
+        [["鲍森•詹森"], ["胚芽鞘尖端产生的影响可以透过琼脂片传递给下部"]],
+        [["拜尔"], ["胚芽鞘的弯曲生长，是由尖端产生的影响在其下部分布不均匀而造成的"]],
+        [["温特"], ["证明胚芽鞘的弯曲是一种化学物质引起的，把这种物质命名为生长素"]]
+        ];
+        document.getElementById('score').innerHTML = "当前分数:0" + String(score);
+        function rand(max){
+            return Math.floor(Math.random()*(max+1));
+        }
+        function right(){
+          score += 10;
+          rc++;
+          document.getElementById('score').innerHTML = "正确，分数+10!</br>当前分数:" + String(score);
+          task();
+        }
+        function wrong(){
+          wc++;
+          score -= 5;
+          document.getElementById('score').innerHTML = "错误，分数-5!</br>当前分数:" + String(score);
+          task();
+        }
+        function task(){
+            let len = q.length;
+            let res = ['',['','','','']];
+            let ans = rand(len-5) + 4;
+            let pos = rand(3);
+            for(let j = 0;j < 3;j++){
+              for(let i = 0;i < 100;i++){
+                let temp = q[j],r = rand(len-1);
+                if(r == ans) continue;
+                q[j] = q[r];
+                q[r] = temp;
+              }
+            }
+            if(rand(1)){
+              res[0] = q[ans][0];
+              res[1][pos] = q[ans][1];
+              let j = 0;
+              for(let i = 0; i < 4; i++){
+                if(i == pos) continue;
+                res[1][i] = q[j++][1];
+              }
+            }else{
+              res[0] = q[ans][1];
+              res[1][pos] = q[ans][0];
+              let j = 0;
+              for(let i = 0; i < 4; i++){
+                if(i == pos) continue;
+                res[1][i] = q[j++][0];
+              }
+            }
+            document.getElementById('q').innerHTML = res[0];
+            for(let i = 0;i < 4;i++){
+              let ele = document.getElementById(String(i));
+              ele.innerHTML = res[1][i];
+              ele.onclick = wrong;
+            }
+              document.getElementById(String(pos)).onclick = right;
+            return res;
+        }
+      task();
+      var seconds = 60;
+      var speed = 1000;
+      var span = document.getElementById('timer');
+      function countDown(seconds,speed){
+        var txt = "剩余时间:" + ((seconds < 10) ? "0" + seconds : seconds);
+        span.innerHTML = txt;
+        var timeId = setTimeout("countDown(seconds--,speed)",speed);
+        if(seconds == 0){
+          clearTimeout(timeId);
+          alert("时间到!\n得分:" + String(score) + "\n答对:" + String(rc) + "道；答错:" + String(wc) + "道\n太强了!您就是亦可神?" );
+          location.reload();
+        };
+      }
+
+      countDown(seconds,speed);
+    </script>
+</body>
+
+</html>
